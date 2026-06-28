@@ -1,0 +1,40 @@
+{% extends 'perpustakaan/base.html' %}
+
+{% block content %}
+<h1>Daftar Peminjaman</h1>
+
+<a href="{% url 'tambah_peminjaman' %}" class="btn">Tambah Peminjaman</a>
+
+<br><br>
+
+<table>
+    <tr>
+        <th>No</th>
+        <th>Buku</th>
+        <th>Anggota</th>
+        <th>Tanggal Pinjam</th>
+        <th>Tanggal Kembali</th>
+        <th>Status</th>
+        <th>Aksi</th>
+    </tr>
+
+    {% for item in peminjaman %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ item.buku.judul }}</td>
+        <td>{{ item.anggota.nama }}</td>
+        <td>{{ item.tanggal_pinjam }}</td>
+        <td>{{ item.tanggal_kembali|default:"-" }}</td>
+        <td>{{ item.get_status_display }}</td>
+        <td>
+            <a href="{% url 'edit_peminjaman' item.id %}">Edit</a> |
+            <a href="{% url 'hapus_peminjaman' item.id %}">Hapus</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="7">Belum ada data peminjaman.</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

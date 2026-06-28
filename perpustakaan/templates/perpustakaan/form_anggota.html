@@ -1,0 +1,12 @@
+{% extends 'perpustakaan/base.html' %}
+
+{% block content %}
+<h1>{{ judul }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn">Simpan</button>
+    <a href="{% url 'daftar_anggota' %}">Kembali</a>
+</form>
+{% endblock %}

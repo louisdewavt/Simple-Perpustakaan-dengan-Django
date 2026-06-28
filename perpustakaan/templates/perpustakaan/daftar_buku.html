@@ -1,0 +1,49 @@
+{% extends 'perpustakaan/base.html' %}
+
+{% block content %}
+<h1>Daftar Buku</h1>
+
+<a href="{% url 'tambah_buku' %}" class="btn">Tambah Buku</a>
+
+<br><br>
+
+<form method="get">
+    <input type="text" name="q" placeholder="Cari judul buku" value="{{ keyword|default:'' }}">
+    <button type="submit">Cari</button>
+</form>
+
+<br>
+
+<table>
+    <tr>
+        <th>No</th>
+        <th>Judul</th>
+        <th>Penulis</th>
+        <th>Penerbit</th>
+        <th>Tahun</th>
+        <th>Kategori</th>
+        <th>Stok</th>
+        <th>Aksi</th>
+    </tr>
+
+    {% for item in buku %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ item.judul }}</td>
+        <td>{{ item.penulis }}</td>
+        <td>{{ item.penerbit }}</td>
+        <td>{{ item.tahun_terbit }}</td>
+        <td>{{ item.kategori.nama }}</td>
+        <td>{{ item.stok }}</td>
+        <td>
+            <a href="{% url 'edit_buku' item.id %}">Edit</a> |
+            <a href="{% url 'hapus_buku' item.id %}">Hapus</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="8">Belum ada data buku.</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

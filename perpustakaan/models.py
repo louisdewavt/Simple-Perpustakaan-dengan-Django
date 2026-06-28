@@ -60,7 +60,7 @@ class Peminjaman(models.Model):
 
     buku = models.ForeignKey(Buku, on_delete=models.CASCADE)
     anggota = models.ForeignKey(Anggota, on_delete=models.CASCADE)
-    tanggal_pinjam = models.DateField(auto_now_add=True)
+    tanggal_pinjam = models.DateField()
     tanggal_kembali = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='dipinjam')
 

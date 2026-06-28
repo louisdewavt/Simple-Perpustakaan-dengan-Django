@@ -1,0 +1,12 @@
+{% extends 'perpustakaan/base.html' %}
+
+{% block content %}
+<h1>Dashboard Perpustakaan</h1>
+
+<ul>
+    <li>Jumlah Kategori: {{ jumlah_kategori }}</li>
+    <li>Jumlah Buku: {{ jumlah_buku }}</li>
+    <li>Jumlah Anggota: {{ jumlah_anggota }}</li>
+    <li>Jumlah Peminjaman: {{ jumlah_peminjaman }}</li>
+</ul>
+{% endblock %}

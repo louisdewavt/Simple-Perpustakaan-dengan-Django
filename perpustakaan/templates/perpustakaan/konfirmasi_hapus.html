@@ -1,0 +1,17 @@
+{% extends 'perpustakaan/base.html' %}
+
+{% block content %}
+<h1>Konfirmasi Hapus {{ jenis }}</h1>
+
+<p>Apakah Anda yakin ingin menghapus data berikut?</p>
+
+<strong>{{ objek }}</strong>
+
+<br><br>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Ya, Hapus</button>
+    <a href="javascript:history.back()">Batal</a>
+</form>
+{% endblock %}
