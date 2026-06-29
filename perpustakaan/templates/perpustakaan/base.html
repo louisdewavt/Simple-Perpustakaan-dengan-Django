@@ -24,6 +24,10 @@
             <button type="submit">Keluar</button>
         </form>
     </nav>
+    <a href="{% url 'profil' %}">
+    Profil ({{ request.user.username }})
+    </a>
+
 </header>
 
 <main class="container">

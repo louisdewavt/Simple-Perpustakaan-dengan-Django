@@ -1,0 +1,44 @@
+{% extends 'perpustakaan/base.html' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block content %}
+<h1>Profil Pengguna</h1>
+
+<table>
+    <tr>
+        <th>Username</th>
+        <td>{{ request.user.username }}</td>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <td>{{ request.user.email|default:"-" }}</td>
+    </tr>
+    <tr>
+        <th>Nama</th>
+        <td>{{ request.user.get_full_name|default:"-" }}</td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td>
+            {% if request.user.is_superuser %}
+                Administrator
+            {% elif request.user.is_staff %}
+                Petugas
+            {% else %}
+                Pengguna
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
+<br>
+
+<a href="{% url 'edit_username' %}" class="btn">
+    Edit Username
+</a>
+
+<a href="{% url 'edit_password' %}" class="btn">
+    Edit Password
+</a>
+{% endblock %}

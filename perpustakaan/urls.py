@@ -24,4 +24,9 @@ urlpatterns = [
     path('kategori/tambah/', views.tambah_kategori, name='tambah_kategori'),
     path('kategori/edit/<int:id>/', views.edit_kategori, name='edit_kategori'),
     path('kategori/hapus/<int:id>/', views.hapus_kategori, name='hapus_kategori'),
+
+
+    path('profil/', views.profil, name='profil'),
+    path('profil/username/', views.edit_username, name='edit_username'),
+    path('profil/password/', views.edit_password, name='edit_password'),
 ]

@@ -8,6 +8,14 @@ from .forms import KategoriForm, BukuForm, AnggotaForm, PeminjamanForm
 from django.utils import timezone
 from django.db import transaction
 
+#library untuk authentication
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from .forms import EditUsernameForm
+
+
 
 @login_required
 def dashboard(request):
@@ -309,4 +317,71 @@ def hapus_kategori(request, id):
         request,
         'perpustakaan/konfirmasi_hapus.html',
         {'objek': kategori, 'jenis': 'Kategori'}
+    )
+
+#region profile
+
+@login_required
+def profil(request):
+    return render(
+        request,
+        'perpustakaan/profil.html'
+    )
+
+
+@login_required
+def edit_username(request):
+    if request.method == 'POST':
+        form = EditUsernameForm(
+            request.POST,
+            instance=request.user
+        )
+
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request,
+                'Username berhasil diperbarui.'
+            )
+            return redirect('profil')
+    else:
+        form = EditUsernameForm(instance=request.user)
+
+    return render(
+        request,
+        'perpustakaan/form_akun.html',
+        {
+            'form': form,
+            'judul': 'Edit Username',
+        }
+    )
+
+
+@login_required
+def edit_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(
+            user=request.user,
+            data=request.POST
+        )
+
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+
+            messages.success(
+                request,
+                'Password berhasil diperbarui.'
+            )
+            return redirect('profil')
+    else:
+        form = PasswordChangeForm(user=request.user)
+
+    return render(
+        request,
+        'perpustakaan/form_akun.html',
+        {
+            'form': form,
+            'judul': 'Edit Password',
+        }
     )

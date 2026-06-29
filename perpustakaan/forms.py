@@ -1,5 +1,7 @@
 from django import forms
 from .models import Kategori, Buku, Anggota, Peminjaman
+from django.contrib.auth.models import User
+
 
 class KategoriForm(forms.ModelForm):
     class Meta:
@@ -25,3 +27,10 @@ class PeminjamanForm(forms.ModelForm):
             'tanggal_kembali': forms.DateInput(attrs={'type': 'date'}),
         }
 
+class EditUsernameForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username']
+        labels = {
+            'username': 'Username baru',
+        }

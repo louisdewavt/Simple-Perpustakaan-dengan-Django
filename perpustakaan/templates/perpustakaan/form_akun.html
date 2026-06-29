@@ -1,0 +1,15 @@
+{% extends 'perpustakaan/base.html' %}
+
+{% block title %}{{ judul }}{% endblock %}
+
+{% block content %}
+<h1>{{ judul }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Simpan</button>
+    <a href="{% url 'profil' %}" class="btn">Batal</a>
+</form>
+{% endblock %}
