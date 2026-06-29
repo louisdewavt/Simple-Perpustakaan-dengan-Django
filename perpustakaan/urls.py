@@ -21,4 +21,6 @@ urlpatterns = [
 
     path('kategori/', views.daftar_kategori, name='daftar_kategori'),
     path('kategori/tambah/', views.tambah_kategori, name='tambah_kategori'),
+    path('kategori/edit/<int:id>/', views.edit_kategori, name='edit_kategori'),
+    path('kategori/hapus/<int:id>/', views.hapus_kategori, name='hapus_kategori'),
 ]

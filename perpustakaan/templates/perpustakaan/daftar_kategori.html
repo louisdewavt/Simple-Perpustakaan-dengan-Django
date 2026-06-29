@@ -1,4 +1,6 @@
-{% extends 'perpustakaan/base.html' %} {% block content %}
+{% extends 'perpustakaan/base.html' %}
+
+{% block content %}
 <h1>Daftar Kategori</h1>
 
 <a href="{% url 'tambah_kategori' %}">Tambah Kategori</a>
@@ -8,6 +10,7 @@
     <tr>
       <th>No.</th>
       <th>Nama Kategori</th>
+      <th>Aksi</th>
     </tr>
   </thead>
 
@@ -16,10 +19,15 @@
     <tr>
       <td>{{ forloop.counter }}</td>
       <td>{{ item.nama_kategori }}</td>
+      <td>
+        <a href="{% url 'edit_kategori' item.id %}">Edit</a>
+        |
+        <a href="{% url 'hapus_kategori' item.id %}">Hapus</a>
+      </td>
     </tr>
     {% empty %}
     <tr>
-      <td colspan="2">Belum ada kategori.</td>
+      <td colspan="3">Belum ada kategori.</td>
     </tr>
     {% endfor %}
   </tbody>

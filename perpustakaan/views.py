@@ -227,3 +227,40 @@ def tambah_kategori(request):
         'perpustakaan/form_kategori.html',
         {'form': form}
     )
+
+@login_required
+def edit_kategori(request, id):
+    kategori = get_object_or_404(Kategori, id=id)
+
+    if request.method == 'POST':
+        form = KategoriForm(request.POST, instance=kategori)
+
+        if form.is_valid():
+            form.save()
+            return redirect('daftar_kategori')
+    else:
+        form = KategoriForm(instance=kategori)
+
+    return render(
+        request,
+        'perpustakaan/form_kategori.html',
+        {
+            'form': form,
+            'judul': 'Edit Kategori',
+        }
+    )
+
+
+@login_required
+def hapus_kategori(request, id):
+    kategori = get_object_or_404(Kategori, id=id)
+
+    if request.method == 'POST':
+        kategori.delete()
+        return redirect('daftar_kategori')
+
+    return render(
+        request,
+        'perpustakaan/konfirmasi_hapus.html',
+        {'objek': kategori, 'jenis': 'Kategori'}
+    )
