@@ -3,38 +3,66 @@
 {% block content %}
 <h1>Daftar Peminjaman</h1>
 
-<a href="{% url 'tambah_peminjaman' %}" class="btn">Tambah Peminjaman</a>
+<a href="{% url 'tambah_peminjaman' %}" class="btn">
+    Tambah Peminjaman
+</a>
 
 <br><br>
 
 <table>
-    <tr>
-        <th>No</th>
-        <th>Buku</th>
-        <th>Anggota</th>
-        <th>Tanggal Pinjam</th>
-        <th>Tanggal Kembali</th>
-        <th>Status</th>
-        <th>Aksi</th>
-    </tr>
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Buku</th>
+            <th>Anggota</th>
+            <th>Tanggal Pinjam</th>
+            <th>Tanggal Kembali</th>
+            <th>Status</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
 
-    {% for item in peminjaman %}
-    <tr>
-        <td>{{ forloop.counter }}</td>
-        <td>{{ item.buku.judul }}</td>
-        <td>{{ item.anggota.nama }}</td>
-        <td>{{ item.tanggal_pinjam }}</td>
-        <td>{{ item.tanggal_kembali|default:"-" }}</td>
-        <td>{{ item.get_status_display }}</td>
-        <td>
-            <a href="{% url 'edit_peminjaman' item.id %}">Edit</a> |
-            <a href="{% url 'hapus_peminjaman' item.id %}">Hapus</a>
-        </td>
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="7">Belum ada data peminjaman.</td>
-    </tr>
-    {% endfor %}
+    <tbody>
+        {% for item in peminjaman %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.buku.judul_buku }}</td>
+            <td>{{ item.anggota.nama_anggota }}</td>
+            <td>{{ item.tanggal_pinjam }}</td>
+            <td>{{ item.tanggal_kembali|default:"-" }}</td>
+            <td>{{ item.get_status_display }}</td>
+
+            <td>
+                <a href="{% url 'edit_peminjaman' item.id %}">
+                    Edit
+                </a>
+
+                {% if item.status == 'dipinjam' %}
+                    |
+                    <form
+                        method="post"
+                        action="{% url 'kembalikan_peminjaman' item.id %}"
+                        style="display: inline;"
+                    >
+                        {% csrf_token %}
+                        <button type="submit">Kembalikan</button>
+                    </form>
+                {% endif %}
+
+                |
+                <a href="{% url 'hapus_peminjaman' item.id %}">
+                    Hapus
+                </a>
+            </td>
+        </tr>
+
+        {% empty %}
+        <tr>
+            <td colspan="7">
+                Belum ada data peminjaman.
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
 {% endblock %}

@@ -5,6 +5,9 @@ from django.contrib import messages
 from .models import Kategori, Buku, Anggota, Peminjaman
 from .forms import KategoriForm, BukuForm, AnggotaForm, PeminjamanForm
 
+from django.utils import timezone
+from django.db import transaction
+
 
 @login_required
 def dashboard(request):
@@ -155,9 +158,25 @@ def tambah_peminjaman(request):
     if request.method == 'POST':
         form = PeminjamanForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Data peminjaman berhasil ditambahkan.')
-            return redirect('daftar_peminjaman')
+            with transaction.atomic():
+                peminjaman = form.save(commit=False)
+
+                buku = Buku.objects.select_for_update().get(id=peminjaman.buku.id)
+                if buku.stok <= 0:
+                    form.add_error(
+                        'buku',
+                        'Stok buku ini sudah habis.'
+                    )
+                else:
+                    peminjaman.status = 'dipinjam'
+                    peminjaman.tanggal_kembali = None
+                    peminjaman.save()
+
+                    buku.stok -= 1
+                    buku.save(update_fields=['stok'])
+
+                    return redirect('daftar_peminjaman')
+            
     else:
         form = PeminjamanForm()
 
@@ -166,6 +185,33 @@ def tambah_peminjaman(request):
         'judul': 'Tambah Peminjaman'
     })
 
+@login_required
+def kembalikan_peminjaman(request, id):
+    peminjaman = get_object_or_404(Peminjaman, id=id)
+
+    if request.method == 'POST':
+        with transaction.atomic():
+            peminjaman = Peminjaman.objects.select_for_update().get(
+                id=id
+            )
+
+            if peminjaman.status == 'dipinjam':
+                buku = Buku.objects.select_for_update().get(
+                    id=peminjaman.buku_id
+                )
+
+                peminjaman.status = 'dikembalikan'
+                peminjaman.tanggal_kembali = timezone.localdate()
+                peminjaman.save(
+                    update_fields=['status', 'tanggal_kembali']
+                )
+
+                buku.stok += 1
+                buku.save(update_fields=['stok'])
+
+        return redirect('daftar_peminjaman')
+
+    return redirect('daftar_peminjaman')
 
 @login_required
 def edit_peminjaman(request, id):

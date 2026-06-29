@@ -1,84 +1,43 @@
-<!doctype html>
+{% load static %}
+<!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Perpustakaan Mini</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 30px;
-        background: #f7f7f7;
-      }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Perpustakaan Mini{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'perpustakaan/style.css' %}">
+</head>
 
-      nav {
-        background: #222;
-        padding: 12px;
-        margin-bottom: 20px;
-      }
+<body>
+<header class="navbar">
+    <a class="brand" href="{% url 'dashboard' %}">Perpustakaan Mini</a>
 
-      nav a {
-        color: white;
-        margin-right: 15px;
-        text-decoration: none;
-      }
-
-      .container {
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        background: white;
-      }
-
-      table,
-      th,
-      td {
-        border: 1px solid #ddd;
-      }
-
-      th,
-      td {
-        padding: 10px;
-      }
-
-      .btn {
-        padding: 8px 12px;
-        background: #0066cc;
-        color: white;
-        text-decoration: none;
-        border-radius: 4px;
-        border: none;
-      }
-
-      .btn-danger {
-        background: #cc0000;
-      }
-
-      .message {
-        padding: 10px;
-        background: #dff0d8;
-        margin-bottom: 10px;
-      }
-    </style>
-  </head>
-  <body>
     <nav>
-      <a href="{% url 'dashboard' %}">Dashboard</a>
-      <a href="{% url 'daftar_buku' %}">Buku</a>
-      <a href="{% url 'daftar_anggota' %}">Anggota</a>
-      <a href="{% url 'daftar_peminjaman' %}">Peminjaman</a>
-      <a href="{% url 'daftar_kategori' %}">Kategori</a>
-      <a href="{% url 'logout' %}">Logout</a>
-    </nav>
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+        <a href="{% url 'daftar_buku' %}">Buku</a>
+        <a href="{% url 'daftar_kategori' %}">Kategori</a>
+        <a href="{% url 'daftar_anggota' %}">Anggota</a>
+        <a href="{% url 'daftar_peminjaman' %}">Peminjaman</a>
 
-    <div class="container">
-      {% if messages %} {% for message in messages %}
-      <div class="message">{{ message }}</div>
-      {% endfor %} {% endif %} {% block content %} {% endblock %}
-    </div>
-  </body>
+        <form method="post" action="{% url 'logout' %}" class="logout">
+            {% csrf_token %}
+            <button type="submit">Keluar</button>
+        </form>
+    </nav>
+</header>
+
+<main class="container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    Sistem Manajemen Perpustakaan Mini
+</footer>
+</body>
 </html>

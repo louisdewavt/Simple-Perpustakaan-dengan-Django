@@ -18,6 +18,7 @@ urlpatterns = [
     path('peminjaman/tambah/', views.tambah_peminjaman, name='tambah_peminjaman'),
     path('peminjaman/edit/<int:id>/', views.edit_peminjaman, name='edit_peminjaman'),
     path('peminjaman/hapus/<int:id>/', views.hapus_peminjaman, name='hapus_peminjaman'),
+    path('peminjaman/<int:id>/kembalikan/',views.kembalikan_peminjaman,name='kembalikan_peminjaman'),
 
     path('kategori/', views.daftar_kategori, name='daftar_kategori'),
     path('kategori/tambah/', views.tambah_kategori, name='tambah_kategori'),
