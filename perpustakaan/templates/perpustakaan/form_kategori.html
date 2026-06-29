@@ -1,0 +1,13 @@
+{% extends 'perpustakaan/base.html' %}
+
+{% block content %}
+<h1>Tambah Kategori</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Simpan</button>
+    <a href="{% url 'daftar_kategori' %}">Batal</a>
+</form>
+{% endblock %}

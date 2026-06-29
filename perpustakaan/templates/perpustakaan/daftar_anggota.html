@@ -19,9 +19,9 @@
     {% for item in anggota %}
     <tr>
         <td>{{ forloop.counter }}</td>
-        <td>{{ item.nama }}</td>
-        <td>{{ item.email }}</td>
-        <td>{{ item.alamat }}</td>
+        <td>{{ item.nama_anggota }}</td>
+        <td>{{ item.email_anggota }}</td>
+        <td>{{ item.alamat_anggota }}</td>
         <td>
             <a href="{% url 'edit_anggota' item.id %}">Edit</a> |
             <a href="{% url 'hapus_anggota' item.id %}">Hapus</a>

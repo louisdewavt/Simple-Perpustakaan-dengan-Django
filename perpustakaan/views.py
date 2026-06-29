@@ -199,3 +199,31 @@ def hapus_peminjaman(request, id):
         'objek': peminjaman,
         'jenis': 'Peminjaman'
     })
+
+
+@login_required
+def daftar_kategori(request):
+    kategori = Kategori.objects.all().order_by('nama_kategori')
+    return render(
+        request,
+        'perpustakaan/daftar_kategori.html',
+        {'kategori': kategori}
+    )
+
+
+@login_required
+def tambah_kategori(request):
+    if request.method == 'POST':
+        form = KategoriForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('daftar_kategori')
+    else:
+        form = KategoriForm()
+
+    return render(
+        request,
+        'perpustakaan/form_kategori.html',
+        {'form': form}
+    )

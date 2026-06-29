@@ -29,11 +29,11 @@
     {% for item in buku %}
     <tr>
         <td>{{ forloop.counter }}</td>
-        <td>{{ item.judul }}</td>
-        <td>{{ item.penulis }}</td>
+        <td>{{ item.judul_buku }}</td>
+        <td>{{ item.penulis_buku }}</td>
         <td>{{ item.penerbit }}</td>
         <td>{{ item.tahun_terbit }}</td>
-        <td>{{ item.kategori.nama }}</td>
+        <td>{{ item.kategori.nama_kategori }}</td>
         <td>{{ item.stok }}</td>
         <td>
             <a href="{% url 'edit_buku' item.id %}">Edit</a> |
